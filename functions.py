@@ -17,5 +17,15 @@ def factorisation(n):
             n //= div
         if n == 1:
             break
-    #print(f"factors of {n}: {factors}")
+    # print(f"factors of {n}: {factors}")
     return np.array(factors)
+
+
+def fast_power(base, power, modulo):
+    power_bin = "{0:b}".format(power)
+    res = 1
+    for s in power_bin:
+        res = (res ** 2) % modulo
+        if s == '1':
+            res = (res * base) % modulo
+    return res
