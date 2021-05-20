@@ -5,6 +5,10 @@ import matplotlib.patches as mpatches
 from matplotlib import colors as mcolors
 
 
+def legendre(a,p):
+    return functions.fast_power(a, (p-1)//2, p)
+
+
 def jacobi(a,n):
     # print(a, n)
     if n <= 0 or n % 2 == 0:
@@ -29,23 +33,24 @@ def jacobi(a,n):
         a, n = n % a, a
 
 
-print(jacobi(13,13))
+if __name__ == "__main__":
+    print(jacobi(13,13))
 
-arr = np.fromfunction(np.vectorize(jacobi), (100, 100), dtype=int).T
-colors = [(0, 0, 0, 1), (1, 0, 0, 1), (1, 1, 1, 1), (0, 1, 0, 1)]
-values = [-2, -1, 0, 1]
-colormap = mcolors.ListedColormap(['black', 'red', 'white', 'green'])
-norm = mcolors.BoundaryNorm(values, colormap.N)
-im = plt.imshow(arr, cmap=colormap)
-# colors = [ im.cmap(im.norm(value)) for value in values]
-print(colors)
-patches = [ mpatches.Patch(color=colors[i], label="{l}".format(l=values[i])) for i in range(len(values))]
-plt.legend(handles=patches, bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
+    arr = np.fromfunction(np.vectorize(jacobi), (100, 100), dtype=int).T
+    colors = [(0, 0, 0, 1), (1, 0, 0, 1), (1, 1, 1, 1), (0, 1, 0, 1)]
+    values = [-2, -1, 0, 1]
+    colormap = mcolors.ListedColormap(['black', 'red', 'white', 'green'])
+    norm = mcolors.BoundaryNorm(values, colormap.N)
+    im = plt.imshow(arr, cmap=colormap)
+    # colors = [ im.cmap(im.norm(value)) for value in values]
+    print(colors)
+    patches = [ mpatches.Patch(color=colors[i], label="{l}".format(l=values[i])) for i in range(len(values))]
+    plt.legend(handles=patches, bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
 
-plt.xlabel('a')
-plt.ylabel('n')
+    plt.xlabel('a')
+    plt.ylabel('n')
 
-plt.show()
+    plt.show()
 
 # fig = plt.figure()
 # ax = plt.subplot(111)

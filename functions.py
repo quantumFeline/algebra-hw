@@ -29,3 +29,17 @@ def fast_power(base, power, modulo):
         if s == '1':
             res = (res * base) % modulo
     return res
+
+
+def sqrt_multiply(a, b):
+    return np.array((a[0]*b[0] + a[1]*b[1], a[0]*b[1] + a[1]*b[0]))
+
+
+def fast_power_sqrt(base, power, modulo):
+    power_bin = "{0:b}".format(power)
+    res = np.array((1,1))
+    for s in power_bin:
+        res = sqrt_multiply(res, res) % modulo
+        if s == '1':
+            res = sqrt_multiply(res, base) % modulo
+    return res
