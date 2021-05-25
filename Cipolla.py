@@ -20,10 +20,6 @@ def cipolla(n, p):
         if res == 0:
             return a  # a**2 == n (mod p)
 
-    # As a method to calculate the power, the sqrt(a**2-n) part
-    # is presented as a numpy complex number
-    # and then is converted back.
-
     # noinspection PyUnboundLocalVariable
     x = functions.fast_power_sqrt(np.array((a, 1)), (p+1)//2, p)
 
