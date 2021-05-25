@@ -67,8 +67,8 @@ class Equation:
         b = p.y - a * p.x
         r_x = a**2 - p.x - q.x
         r_y = r_x * a + b
-        return Point(r_x % self.mod, -r_y % self.mod)
-        # return Point(r_x, -r_y)
+        #return Point(r_x % self.mod, -r_y % self.mod)
+        return Point(r_x, -r_y)
 
     def point_power(self, point, power):
         res = self.calc(point, point)
@@ -94,7 +94,8 @@ def generate_keys():
     # print(equation, order, p)
 
     # Private
-    k = np.random.randint(100)
+    k = np.random.randint(10)
+    # k = 5
     y = equation.calc(p, p)
     for i in range(k-2):
         y = equation.calc(y, p)
@@ -118,16 +119,18 @@ def main():
 
     while True:
         input()
-        r = np.random.randint(order)  # Session key
+        r = np.random.randint(10)  # Session key
+        # r = 1
         alice_message = Point(*np.random.randint(0, order, (2,)))
         print(f"session key: {r}, alice_message: {alice_message}")
-        c = (e.point_power(p, r), e.calc(alice_message, y.mul(r)))
+        c = (e.point_power(p, r), e.calc(alice_message, e.point_power(y,r)))
         print(f"coded: {c[0]} {c[1]}")
 
         # Decoding
         s = e.point_power(c[0], private)
-        # s = -s
+        s = Point(s.x, -s.y)
         message = e.calc(s, c[1])
+        message = Point(int(message.x), int(message.y))
         print(f"decoded: {message}")
 
 
